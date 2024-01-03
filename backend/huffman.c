@@ -286,8 +286,24 @@ void freqArr(const char* filename, int freqMap[]) {
     fclose(inputFile);
 }
 
-int main() {
-    const char* filename = "input.txt";
+int main(int argc, char *argv[]) {
+
+    printf("Total number of arguments: %d\n", argc);
+
+    // Print each command-line argument
+    printf("Command-line arguments:\n");
+    for (int i = 0; i < argc; ++i) {
+        printf("argv[%d]: %s\n", i, argv[i]);
+    }
+
+    if (argc != 2) {
+        fprintf(stderr, "Usage: %s <input_file>\n", argv[0]);
+        return 1;
+    }
+
+    const char *filename = argv[1];
+
+
 
     // Step 1: Generate Frequency Array
     int frequencyMap[2 * ASCII] = {0};
