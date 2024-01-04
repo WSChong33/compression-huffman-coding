@@ -217,6 +217,7 @@ char* encodeTree(char* A, HuffmanTree* ht, int freqMap[]) {
     return B;
 }
 
+
 // Function to decode text
 char* decodeText(char* B, HuffmanTree* ht, int freqMap[]) {
 
@@ -288,22 +289,12 @@ void freqArr(const char* filename, int freqMap[]) {
 
 int main(int argc, char *argv[]) {
 
-    printf("Total number of arguments: %d\n", argc);
-
-    // Print each command-line argument
-    printf("Command-line arguments:\n");
-    for (int i = 0; i < argc; ++i) {
-        printf("argv[%d]: %s\n", i, argv[i]);
-    }
-
     if (argc != 2) {
         fprintf(stderr, "Usage: %s <input_file>\n", argv[0]);
         return 1;
     }
 
     const char *filename = argv[1];
-
-
 
     // Step 1: Generate Frequency Array
     int frequencyMap[2 * ASCII] = {0};
@@ -334,14 +325,12 @@ int main(int argc, char *argv[]) {
 
     fclose(inputFile);
 
-    printf("Original Text:\n%s\n", inputText);
-
     char* encodedText = encodeTree(inputText, ht, frequencyMap);
-    printf("Encoded Text:\n%s\n", encodedText);
+
+    fwrite(encodedText, sizeof(char), strlen(encodedText), stdout);
 
     // Step 4: Decode Text
-    char* decodedText = decodeText(encodedText, ht, frequencyMap);
-    printf("Decoded Text:\n%s\n", decodedText);
+    char* decodedText = decodeText((char*)encodedText, ht, frequencyMap);
 
     // Cleanup
     free(inputText);
@@ -351,3 +340,5 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+
+// gcc backend/huffman.c -o backend/huffman
