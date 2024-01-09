@@ -1,3 +1,10 @@
+const updateFileName = () => {
+    const input = document.getElementById('fileInput');
+    const fileNameSpan = document.getElementById('fileName');
+    fileNameSpan.textContent = input.files[0] ? input.files[0].name : 'Choose a file';
+};
+
+
 const compress = () => {
     const fileInput = document.getElementById('fileInput');
     console.log('File Input Element:', fileInput);

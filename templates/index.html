@@ -4,13 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Huffman Coding Compression</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
-    <h1>Huffman Coding</h1>
-    <h1>Compression Algorithm</h1>
-    <input type="file" id="fileInput" accept=".txt" required>
-    <button onclick="compress()">Compress</button>
-    <button onclick="compress()">Decompress</button> <!-- change to decompress --> 
+    <div class="container">
+        <div class="title">
+            <h1>Huffman Coding</h1>
+            <h2>Compression Algorithm</h2>
+        </div>
+        <label for="fileInput" class="fileLabel">
+            <span id="fileName">Choose a file</span>
+            <input type="file" id="fileInput" accept=".txt" required onchange="updateFileName()">
+        </label>
+        <div class="buttonContainer">
+            <button onclick="compress()" class="compressButton">Compress</button>
+            <button onclick="decompress()" class="decompressButton">Decompress</button>
+        </div>
+    </div>
 </body>
 </html>

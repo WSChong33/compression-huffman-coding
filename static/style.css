@@ -1,0 +1,67 @@
+/* Style for the body */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Changed to move content to the top */
+    height: 100vh;
+}
+
+/* Style for the container */
+.container {
+    text-align: center;
+    padding-top: 50px; /* Added padding to move content down from the top */
+}
+
+/* Style for the title */
+.title {
+    margin-bottom: 20px; /* Added margin to separate title from other content */
+}
+
+/* Style for the header */
+h1, h2 {
+    color: #333;
+    font-size: 2em; /* Increased font size */
+}
+
+/* Style for the file input and label */
+#fileInput {
+    display: none;
+}
+
+.fileLabel {
+    display: inline-block;
+    padding: 20px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+}
+
+/* Style for the buttons */
+.buttonContainer {
+    margin-top: 20px;
+}
+
+.compressButton,
+.decompressButton {
+    padding: 20px 40px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2em; /* Increased font size */
+}
+
+/* Style for the buttons on hover */
+.compressButton:hover,
+.decompressButton:hover {
+    background-color: #0056b3;
+}
