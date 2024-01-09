@@ -281,6 +281,9 @@ void freqArr(const char* filename, int freqMap[]) {
 
     int c;
     while((c = fgetc(inputFile)) != EOF) {
+        // if (c == 10) {
+        //     printf("New line here\n");
+        // }
         freqMap[c-32]++;
     }
 
@@ -299,6 +302,11 @@ int main(int argc, char *argv[]) {
     // Step 1: Generate Frequency Array
     int frequencyMap[2 * ASCII] = {0};
     freqArr(filename, frequencyMap);
+
+    // PRINT TEST
+    for (int i = 0; i < 2 * ASCII; i++) {
+        printf("Symbol: %c, ASCII: %d, Frequency: %d\n", i, i, frequencyMap[i]);
+    }
 
     // Step 2: Build Huffman Tree
     HuffmanTree* ht = buildHuffmanTree(frequencyMap);
@@ -340,5 +348,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-
-// gcc backend/huffman.c -o backend/huffman
