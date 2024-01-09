@@ -3,7 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#define ASCII 95
+#define ASCII 128
 
 /* 
 Code for priorty queue in binary heap implementation
@@ -26,7 +26,7 @@ typedef struct PQ {
 // Function to initialise a priority queue
 PriorityQueue* initPQ(int capacity) {
     PriorityQueue* pq = (PriorityQueue*) malloc(sizeof(PriorityQueue));
-    pq->heap = (KVP*) malloc((capacity + 1)*sizeof(KVP)); // + 1 for the heap implementation of 1-index based
+    pq->heap = (KVP*) malloc((capacity + 1) * sizeof(KVP)); // + 1 for the heap implementation of 1-index based
     pq->capacity = capacity;
     pq->size = 0;
     return pq;
@@ -149,36 +149,36 @@ HuffmanTree* buildHuffmanTree(int freqMap[]) {
 
     HuffmanTree* ht = initializeHuffmanTree(ASCII);
     PriorityQueue* pq = initPQ(2 * ASCII);
-    int distinct = 0;
 
+    int distinct = 0;
     for (int i = 0; i < ASCII; i++) {
         if (freqMap[i] > 0) {
-            insert(pq, freqMap[i], i + 32);
+            insert(pq, freqMap[i], i);
             distinct++;
         }
     }
 
-    for (int i = ASCII + 32; i < distinct - 1 + ASCII + 32; i++) {
+    for (int i = ASCII; i < distinct - 1 + ASCII; i++) {
 
         KVP x = extractMin(pq); // Gives min frequency key-value pair based on key
         KVP y = extractMin(pq);
 
-        freqMap[i - 32] = freqMap[x.value - 32] + freqMap[y.value - 32];
+        freqMap[i] = freqMap[x.value] + freqMap[y.value];
 
-        insert(pq, freqMap[i - 32], i);
+        insert(pq, freqMap[i], i);
         ht->L[i] = x.value;
         ht->R[i] = y.value;
         ht->P[x.value] = i;
         ht->P[y.value] = i;
     }
 
-    ht->P[2 * ASCII - 1] = 0;
+    ht->P[distinct - 2 + ASCII] = 0;
     return ht;
 }
 
 // Function to encode symbol
 void encodeSymbol(int a, char** B, int* l, HuffmanTree* ht, int distinct) {
-    if (a != (ASCII + 32 + distinct - 2)) {
+    if (a != (ASCII + distinct - 2)) {
         encodeSymbol(ht->P[a], B, l, ht, distinct);
         if (a == ht->L[ht->P[a]]) {
             (*B)[(*l)++] = '0';
@@ -199,7 +199,7 @@ void encodeSymbol(int a, char** B, int* l, HuffmanTree* ht, int distinct) {
 // Function to encode text
 char* encodeTree(char* A, HuffmanTree* ht, int freqMap[]) {
 
-    char* B = (char*)malloc(1 * sizeof(char));
+    char* B = (char*)malloc(sizeof(char));
     int l = 0;
 
     int distinct = 0;
@@ -211,7 +211,9 @@ char* encodeTree(char* A, HuffmanTree* ht, int freqMap[]) {
     }
 
     for (int i = 0; i < strlen(A); i++) {
-        encodeSymbol(A[i], &B, &l, ht, distinct);
+        if (freqMap[A[i]] > 0) {
+            encodeSymbol(A[i], &B, &l, ht, distinct);
+        }
     }
 
     return B;
@@ -281,10 +283,7 @@ void freqArr(const char* filename, int freqMap[]) {
 
     int c;
     while((c = fgetc(inputFile)) != EOF) {
-        // if (c == 10) {
-        //     printf("New line here\n");
-        // }
-        freqMap[c-32]++;
+        freqMap[c]++;
     }
 
     fclose(inputFile);
@@ -302,11 +301,6 @@ int main(int argc, char *argv[]) {
     // Step 1: Generate Frequency Array
     int frequencyMap[2 * ASCII] = {0};
     freqArr(filename, frequencyMap);
-
-    // PRINT TEST
-    for (int i = 0; i < 2 * ASCII; i++) {
-        printf("Symbol: %c, ASCII: %d, Frequency: %d\n", i, i, frequencyMap[i]);
-    }
 
     // Step 2: Build Huffman Tree
     HuffmanTree* ht = buildHuffmanTree(frequencyMap);
